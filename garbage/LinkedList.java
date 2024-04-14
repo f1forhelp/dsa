@@ -79,8 +79,7 @@ class CustomLinkedList<T> {
             return;
         }
 
-        while (head  != null) {
-            System.out.println("DATA-"+head.next);
+        while (true) {
             nextNode = head.next;
             head.next = prevNode;
             prevNode = head;
