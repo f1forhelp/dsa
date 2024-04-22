@@ -7,17 +7,18 @@ public class LinkedList {
         // customLinkedList.append("Mango");
         // customLinkedList.append("Banana");
 
-
         customLinkedList.append("Opp1");
         customLinkedList.append("Opp2");
-        // customLinkedList.append("Opp3");
-        // customLinkedList.append("Opp4");
+        customLinkedList.append("Opp3");
+        customLinkedList.append("Opp4");
+        // customLinkedList.append("Opp5");
         // customLinkedList.removeFirst();
-        customLinkedList.reverse();
-
-        System.out.println("");
-        System.out.println(customLinkedList);
-        System.out.println(customLinkedList);
+        // customLinkedList.reverse();
+        customLinkedList.findSecondMiddleNode();
+        // customLinkedList.findFirstMiddleNode();
+        // System.out.println("");
+        // System.out.println(customLinkedList);
+        // System.out.println(customLinkedList);
     }
 }
 
@@ -42,7 +43,7 @@ class CustomLinkedList<T> {
         }
     }
 
-    void prepend(T v){
+    void prepend(T v) {
         Node node = new Node(v, head);
         head = node;
         if (tail == null) {
@@ -63,34 +64,59 @@ class CustomLinkedList<T> {
         }
     }
 
-    void removeFirst(){
+    void removeFirst() {
         if (tail == head) {
             tail = head = null;
-        }else{
+        } else {
             head = head.next;
         }
     }
 
-    void reverse(){
-        Node prevNode = null;
-        Node nextNode = null;
-        //If array is empty or contains one value.
-        if (head == tail) {
-            return;
-        }
+    void reverse() {
+        Node cN = head;
+        Node pN = null;
+        Node nN = null;
 
-        while (true) {
-            nextNode = head.next;
-            head.next = prevNode;
-            prevNode = head;
-            if (head == tail) {
-                head = tail;
-                tail = prevNode;
-                break;
-            }else{
-                head = nextNode;
-            }
-  
+        while (cN != null) {
+            nN = cN.next;
+            cN.next = pN;
+            pN = cN;
+            cN = nN;
+        }
+        tail = head;
+        head = pN;
+    }
+
+    void findSecondMiddleNode() {
+        // ALGO: slow and fast pointer technique (aka Floyd's Tortoise and Hare
+        // algorithm aka (Floyd’s Cycle Finding Algorithm))
+        Node fN = head;
+        Node sN = head;
+
+        while (fN != null && fN.next != null) {
+            sN = sN.next;
+            fN = fN.next.next;
+        }
+        System.out.println(sN.data);
+    }
+
+    void findFirstMiddleNode() {
+        Node fN = head;
+        Node sN = head;
+        Node pN = null;
+
+        while (fN != null && fN.next != null) {
+            pN = sN;
+            sN = sN.next;
+            fN = fN.next.next;
+        }
+        // As fN will be null if no of elements is even. Reason is fN starts from 1
+        // and it keeps adding 2 to its current value.
+        // So in second iteration fN will be 3 then 5 , 7 so on.
+        if (fN == null) {
+            System.out.println(pN.data);
+        } else {
+            System.out.println(sN.data);
         }
     }
 
@@ -102,6 +128,7 @@ class CustomLinkedList<T> {
             initialHeader = initialHeader.next;
         }
         System.out.println("");
+        System.out.println(tail.data);
         return "";
     }
 
